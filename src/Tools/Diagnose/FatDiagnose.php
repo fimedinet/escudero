@@ -80,7 +80,7 @@ class FatDiagnose
 
     public function getFatRangeFromLevel($bmiLevel)
     {
-        logger()->info("Calculated BMI: $bmiLevel");
+        // logger()->info("Calculated BMI: $bmiLevel");
 
         $records = explode("\n", $this->table[$bmiLevel]);
         foreach ($records as $record) {
@@ -93,7 +93,7 @@ class FatDiagnose
 
                 if (intval($r_age_min) <= $this->age && $this->age <= intval($r_age_max)) {
                     list($r_val_min, $r_val_max) = explode('-', $r_values);
-                    logger()->info("RANGE: $r_val_min - $r_val_max");
+                    // logger()->info("RANGE: $r_val_min - $r_val_max");
 
                     return ['min' => floatval($r_val_min),
                             'max' => floatval($r_val_max),
