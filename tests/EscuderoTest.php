@@ -4,6 +4,7 @@ namespace Tests;
 
 use FimediNET\Escudero\Escudero;
 use FimediNET\Escudero\Tools\Diagnose\FatDiagnose;
+use FimediNET\Escudero\Tools\Diagnose\SkeletalMuscleDiagnose;
 
 class EscuderoTest extends BaseTestCase
 {
@@ -18,6 +19,19 @@ class EscuderoTest extends BaseTestCase
 
         $this->assertInstanceOf(FatDiagnose::class, $tool);
     }
+
+    /**
+     * Test it returns a valid class for SkeletalMuscleDiagnose
+     *
+     * @return void
+     */
+    public function test_it_returns_a_valid_class_for_skeletal_muscle_diagnose()
+    {
+        $tool = Escudero::tool(Escudero::TOOL_SKELETAL_MUSCLE_DIAGNOSE);
+
+        $this->assertInstanceOf(SkeletalMuscleDiagnose::class, $tool);
+    }
+
 
     /**
      * Test it returns false if no tool was found
