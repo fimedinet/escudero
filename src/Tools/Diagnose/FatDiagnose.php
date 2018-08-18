@@ -64,6 +64,8 @@ class FatDiagnose
 
     public function getFatRangeFromCategory($bmiLevel)
     {
+        $this->jsonData || $this->initTable();
+
         // Scan the table
         foreach ($this->jsonData as $row) {
 

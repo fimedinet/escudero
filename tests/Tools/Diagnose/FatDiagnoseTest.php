@@ -89,6 +89,31 @@ class FatDiagnoseTest extends BaseTestCase
         }
     }
 
+    /**
+     * Test it uses autoloaded internal fat ranges table from CSV to JSON
+     *
+     * @return void
+     */
+    public function test_uses_autoloaded_internal_fat_table_from_csv_to_json()
+    {
+        $tool = FatDiagnose::create(['age' => 33, 'gender' => 'F']);
+
+        $bmiCategories = [BMILevel::LEVEL_LOW,
+                          BMILevel::LEVEL_NORMAL,
+                          BMILevel::LEVEL_HIGH,
+                          BMILevel::LEVEL_VERY_HIGH,];
+
+        foreach ($bmiCategories as $bmiCategory) {
+            $range = $tool->getFatRangeFromCategory($bmiCategory);
+
+            $this->assertInternalType('array', $range);
+            $this->assertArrayHasKey('min', $range);
+            $this->assertArrayHasKey('max', $range);
+            $this->assertInternalType('float', $range['min']);
+            $this->assertInternalType('float', $range['max']);
+        }
+    }
+
     /////////////
     // HELPERS //
     /////////////
