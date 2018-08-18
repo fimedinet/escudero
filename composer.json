@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "FimediNET\\Escudero\\Tests\\": "tests"
+            "Tests\\": "tests"
         }
     },
     "extra": {
