@@ -17,7 +17,7 @@ class SkeletalMuscleDiagnose extends RangeDiagnoser
 
     public function dataFilename()
     {
-        return 'skeletal-muscle-ranges';
+        return 'skeletal-muscle';
     }
 
     public function getSkeletalMuscleRange($bmi)

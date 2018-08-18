@@ -17,7 +17,7 @@ class FatDiagnose extends RangeDiagnoser
 
     public function dataFilename()
     {
-        return 'fat-ranges';
+        return 'fat';
     }
 
     public function getFatRange($bmi)

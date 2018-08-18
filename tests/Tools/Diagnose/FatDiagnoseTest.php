@@ -171,7 +171,7 @@ class FatDiagnoseTest extends BaseTestCase
 
     protected function loadFatRangesStub()
     {
-        $csv = new Csv(__DIR__.'/../../../data/fat-ranges.csv');
+        $csv = new Csv(__DIR__.'/../../../data/ranges/fat.csv');
 
         $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 

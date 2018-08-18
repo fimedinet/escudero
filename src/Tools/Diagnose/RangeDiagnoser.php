@@ -38,7 +38,7 @@ abstract class RangeDiagnoser
     {
         $filename = $this->dataFilename();
 
-        $csv = new Csv(__DIR__."/../../../data/{$filename}.csv");
+        $csv = new Csv(__DIR__."/../../../data/ranges/{$filename}.csv");
 
         $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 

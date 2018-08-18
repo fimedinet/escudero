@@ -167,7 +167,7 @@ class SkeletalMuscleDiagnoseTest extends BaseTestCase
 
     protected function loadSkeletalMuscleRangesStub()
     {
-        $csv = new Csv(__DIR__.'/../../../data/skeletal-muscle-ranges.csv');
+        $csv = new Csv(__DIR__.'/../../../data/ranges/skeletal-muscle.csv');
 
         $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
