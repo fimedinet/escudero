@@ -92,7 +92,9 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_uses_autoloaded_internal_fat_table_from_csv_to_json()
     {
-        $tool = FatDiagnose::create($this->randomProfile());
+        $profile = $this->randomProfile();
+
+        $tool = FatDiagnose::create($profile);
 
         $bmiCategories = [BMILevel::LEVEL_LOW,
                           BMILevel::LEVEL_NORMAL,
@@ -107,6 +109,27 @@ class FatDiagnoseTest extends BaseTestCase
             $this->assertArrayHasKey('max', $range);
             $this->assertInternalType('float', $range['min']);
             $this->assertInternalType('float', $range['max']);
+        }
+    }
+
+    /**
+     * Test it returns false if profile is not found in table
+     *
+     * @return void
+     */
+    public function test_it_returns_false_if_profile_is_not_found_in_table()
+    {
+        $tool = FatDiagnose::create(['age' => 10, 'gender' => 'X']);
+
+        $bmiCategories = [BMILevel::LEVEL_LOW,
+                          BMILevel::LEVEL_NORMAL,
+                          BMILevel::LEVEL_HIGH,
+                          BMILevel::LEVEL_VERY_HIGH,];
+
+        foreach ($bmiCategories as $bmiCategory) {
+            $range = $tool->getFatRangeFromCategory($bmiCategory);
+
+            $this->assertFalse($range);
         }
     }
 
@@ -131,7 +154,7 @@ class FatDiagnoseTest extends BaseTestCase
         $faker = Factory::create();
 
         $gender = $faker->randomElement(['M', 'F']);
-        $age = $faker->numberBetween(18, 80);
+        $age = $faker->numberBetween(20, 79);
         $bmi = $faker->numberBetween(17, 50);
 
         return compact('age', 'gender', 'bmi');
