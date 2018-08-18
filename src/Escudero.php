@@ -13,11 +13,9 @@ class Escudero
         switch ($name) {
             case self::TOOL_FAT_DIAGNOSE:
                 return new FatDiagnose;
-                break;
             
             default:
-                # code...
-                break;
+                return false;
         }
     }
 }
