@@ -17,7 +17,7 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_a_fat_diagnose_tool_class_exists()
     {
-        $tool = FatDiagnose::create(['age' => 33, 'gender' => 'M']);
+        $tool = FatDiagnose::create($this->randomProfile());
 
         $this->assertInstanceOf(FatDiagnose::class, $tool);
     }
@@ -47,15 +47,11 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_it_retrieves_a_range_level_from_table()
     {
-        $faker = Factory::create();
+        $profile = $this->randomProfile();
 
-        $gender = $faker->randomElement(['M', 'F']);
-        $age = $faker->numberBetween(18, 80);
-        $bmi = $faker->numberBetween(17, 50);
+        $tool = FatDiagnose::create($profile);
 
-        $tool = FatDiagnose::create(['age' => $age, 'gender' => $gender]);
-
-        $range = $tool->getFatRangeString($bmi);
+        $range = $tool->getFatRangeString($profile['bmi']);
 
         $this->assertRegExp('/[\d\.]+\-[\d\.]+/', $range);
     }
@@ -67,7 +63,7 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_uses_external_fat_table_from_csv_to_json()
     {
-        $tool = FatDiagnose::create(['age' => 33, 'gender' => 'M']);
+        $tool = FatDiagnose::create($this->randomProfile());
 
         $jsonData = $this->loadFatRangesStub();
 
@@ -96,7 +92,7 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_uses_autoloaded_internal_fat_table_from_csv_to_json()
     {
-        $tool = FatDiagnose::create(['age' => 33, 'gender' => 'F']);
+        $tool = FatDiagnose::create($this->randomProfile());
 
         $bmiCategories = [BMILevel::LEVEL_LOW,
                           BMILevel::LEVEL_NORMAL,
@@ -125,5 +121,19 @@ class FatDiagnoseTest extends BaseTestCase
         $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         return json_decode($csv->convert());
+    }
+
+    /*
+     * Create a random testing profile
+     */
+    protected function randomProfile() : array
+    {
+        $faker = Factory::create();
+
+        $gender = $faker->randomElement(['M', 'F']);
+        $age = $faker->numberBetween(18, 80);
+        $bmi = $faker->numberBetween(17, 50);
+
+        return compact('age', 'gender', 'bmi');
     }
 }
