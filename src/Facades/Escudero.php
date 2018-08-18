@@ -1,10 +1,10 @@
 <?php
 
-namespace fimedinet\escudero\Facades;
+namespace FimediNET\Escudero\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class escudero extends Facade
+class Escudero extends Facade
 {
     /**
      * Get the registered name of the component.
