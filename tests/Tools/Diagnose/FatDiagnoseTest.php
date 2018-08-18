@@ -2,6 +2,7 @@
 
 namespace Tests\Tools\Diagnose;
 
+use Faker\Factory;
 use FimediNET\Escudero\Tools\Diagnose\FatDiagnose;
 use Tests\BaseTestCase;
 
@@ -44,9 +45,11 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_it_retrieves_a_range_level_from_table()
     {
-        $gender = 'M';
-        $age = 33;
-        $bmi = 18.5;
+        $faker = Factory::create();
+
+        $gender = $faker->randomElement(['M','F']);
+        $age = $faker->numberBetween(18, 80);
+        $bmi = $faker->numberBetween(17, 50);
 
         $tool = FatDiagnose::create(['age' => $age, 'gender' => $gender]);
 
