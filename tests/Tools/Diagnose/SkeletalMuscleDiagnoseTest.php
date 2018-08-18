@@ -4,24 +4,24 @@ namespace Tests\Tools\Diagnose;
 
 use Faker\Factory;
 use FimediNET\Escudero\Tools\BMI\BMILevel;
-use FimediNET\Escudero\Tools\Diagnose\FatDiagnose;
+use FimediNET\Escudero\Tools\Diagnose\SkeletalMuscleDiagnose;
 use OzdemirBurak\JsonCsv\File\Csv;
 use Tests\BaseTestCase;
 
-class FatDiagnoseTest extends BaseTestCase
+class SkeletalMuscleDiagnoseTest extends BaseTestCase
 {
     use GeneratesProfileTrait;
 
     /**
-     * Test a FatDiagnose tool class exists
+     * Test a SkeletalMuscleDiagnose tool class exists
      *
      * @return void
      */
-    public function test_a_fat_diagnose_tool_class_exists()
+    public function test_a_skeletal_muscle_diagnose_tool_class_exists()
     {
-        $tool = FatDiagnose::create($this->randomProfile());
+        $tool = SkeletalMuscleDiagnose::create($this->randomProfile());
 
-        $this->assertInstanceOf(FatDiagnose::class, $tool);
+        $this->assertInstanceOf(SkeletalMuscleDiagnose::class, $tool);
     }
 
     /**
@@ -31,19 +31,15 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_it_retrieves_correct_range_levels_from_table()
     {
-        $tool = FatDiagnose::create(['age' => 33, 'gender' => 'M']);
+        $tool = SkeletalMuscleDiagnose::create(['age' => 33, 'gender' => 'M']);
 
-        $tool->initTable();
+        $range1 = $tool->getSkeletalMuscleRangeString(18);
+        $range2 = $tool->getSkeletalMuscleRangeString(19);
+        $range3 = $tool->getSkeletalMuscleRangeString(30);
 
-        // dd($tool);
-
-        $range1 = $tool->getFatRangeString(18);
-        $range2 = $tool->getFatRangeString(19);
-        $range3 = $tool->getFatRangeString(30);
-
-        $this->assertEquals($range1, '0-8');
-        $this->assertEquals($range2, '8-19.9');
-        $this->assertEquals($range3, '20-24.9');
+        $this->assertEquals($range1, '0-33.3');
+        $this->assertEquals($range2, '33.3-39.3');
+        $this->assertEquals($range3, '39.4-44');
     }
 
     /**
@@ -55,23 +51,23 @@ class FatDiagnoseTest extends BaseTestCase
     {
         $profile = $this->randomProfile();
 
-        $tool = FatDiagnose::create($profile);
+        $tool = SkeletalMuscleDiagnose::create($profile);
 
-        $range = $tool->getFatRangeString($profile['bmi']);
+        $range = $tool->getSkeletalMuscleRangeString($profile['bmi']);
 
         $this->assertRegExp('/[\d\.]+\-[\d\.]+/', $range);
     }
 
     /**
-     * Test it uses external fat ranges table from CSV to JSON
+     * Test it uses external ranges table from CSV to JSON
      *
      * @return void
      */
-    public function test_uses_external_fat_table_from_csv_to_json()
+    public function test_uses_external_table_from_csv_to_json()
     {
-        $tool = FatDiagnose::create($this->randomProfile());
+        $tool = SkeletalMuscleDiagnose::create($this->randomProfile());
 
-        $jsonData = $this->loadFatRangesStub();
+        $jsonData = $this->loadSkeletalMuscleRangesStub();
 
         $tool->useJSONData($jsonData);
 
@@ -81,7 +77,7 @@ class FatDiagnoseTest extends BaseTestCase
                           BMILevel::LEVEL_VERY_HIGH,];
 
         foreach ($bmiCategories as $bmiCategory) {
-            $range = $tool->getFatRangeFromCategory($bmiCategory);
+            $range = $tool->getSkeletalMuscleRangeFromCategory($bmiCategory);
 
             $this->assertInternalType('array', $range);
             $this->assertArrayHasKey('min', $range);
@@ -92,15 +88,15 @@ class FatDiagnoseTest extends BaseTestCase
     }
 
     /**
-     * Test it uses autoloaded internal fat ranges table from CSV to JSON
+     * Test it uses autoloaded internal ranges table from CSV to JSON
      *
      * @return void
      */
-    public function test_uses_autoloaded_internal_fat_table_from_csv_to_json()
+    public function test_uses_autoloaded_internal_table_from_csv_to_json()
     {
         $profile = $this->randomProfile();
 
-        $tool = FatDiagnose::create($profile);
+        $tool = SkeletalMuscleDiagnose::create($profile);
 
         $bmiCategories = [BMILevel::LEVEL_LOW,
                           BMILevel::LEVEL_NORMAL,
@@ -108,7 +104,7 @@ class FatDiagnoseTest extends BaseTestCase
                           BMILevel::LEVEL_VERY_HIGH,];
 
         foreach ($bmiCategories as $bmiCategory) {
-            $range = $tool->getFatRangeFromCategory($bmiCategory);
+            $range = $tool->getSkeletalMuscleRangeFromCategory($bmiCategory);
 
             $this->assertInternalType('array', $range);
             $this->assertArrayHasKey('min', $range);
@@ -125,7 +121,7 @@ class FatDiagnoseTest extends BaseTestCase
      */
     public function test_it_returns_false_if_profile_is_not_found_in_table()
     {
-        $tool = FatDiagnose::create(['age' => 10, 'gender' => 'X']);
+        $tool = SkeletalMuscleDiagnose::create(['age' => 10, 'gender' => 'X']);
 
         $bmiCategories = [BMILevel::LEVEL_LOW,
                           BMILevel::LEVEL_NORMAL,
@@ -133,7 +129,7 @@ class FatDiagnoseTest extends BaseTestCase
                           BMILevel::LEVEL_VERY_HIGH,];
 
         foreach ($bmiCategories as $bmiCategory) {
-            $range = $tool->getFatRangeFromCategory($bmiCategory);
+            $range = $tool->getSkeletalMuscleRangeFromCategory($bmiCategory);
 
             $this->assertFalse($range);
         }
@@ -144,13 +140,13 @@ class FatDiagnoseTest extends BaseTestCase
      *
      * @return void
      */
-    public function test_it_tells_if_a_given_fat_level_is_above_or_below_the_recommended_range_for_that_profile()
+    public function test_it_tells_if_a_given_level_is_above_or_below_the_recommended_range_for_that_profile()
     {
         $profile = $this->randomProfile();
 
-        $tool = FatDiagnose::create($profile);
+        $tool = SkeletalMuscleDiagnose::create($profile);
 
-        $range = $tool->getFatRange($profile['bmi']);
+        $range = $tool->getSkeletalMuscleRange($profile['bmi']);
 
         $faker = Factory::create();
 
@@ -160,18 +156,18 @@ class FatDiagnoseTest extends BaseTestCase
         $resultBelow = $tool->check($profile['bmi'], $range['min'] - $delta); // Below minimum in range
         $resultBalanced = $tool->check($profile['bmi'], $range['min'] + $delta); // Inside range
 
-        $this->assertEquals(FatDiagnose::CHECK_ABOVE, $resultAbove);
-        $this->assertEquals(FatDiagnose::CHECK_BELOW, $resultBelow);
-        $this->assertEquals(FatDiagnose::CHECK_BALANCED, $resultBalanced);
+        $this->assertEquals(SkeletalMuscleDiagnose::CHECK_ABOVE, $resultAbove);
+        $this->assertEquals(SkeletalMuscleDiagnose::CHECK_BELOW, $resultBelow);
+        $this->assertEquals(SkeletalMuscleDiagnose::CHECK_BALANCED, $resultBalanced);
     }
 
     /////////////
     // HELPERS //
     /////////////
 
-    protected function loadFatRangesStub()
+    protected function loadSkeletalMuscleRangesStub()
     {
-        $csv = new Csv(__DIR__.'/../../../data/fat-ranges.csv');
+        $csv = new Csv(__DIR__.'/../../../data/skeletal-muscle-ranges.csv');
 
         $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
