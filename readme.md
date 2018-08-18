@@ -36,8 +36,8 @@ If you discover any security related issues, please email author email instead o
 
 ## Credits
 
-- [author name][link-author]
-- [All Contributors][link-contributors]
+- [Ariel Vallese][https://www.fimedi.net]
+- [All Contributors][https://github.com/fimedinet/escudero/graphs/contributors]
 
 ## License
 
