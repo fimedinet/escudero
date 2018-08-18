@@ -1,12 +1,12 @@
 {
     "name": "fimedinet/escudero",
-    "description": ":description",
-    "license": "license",
+    "description": "A set of tools for nutrition control used by dietitians",
+    "license": "MIT",
     "authors": [
         {
-            "name": "author name",
-            "email": "author email",
-            "homepage": "author homepage"
+            "name": "Ariel Vallese",
+            "email": "ariel@fimedi.net",
+            "homepage": "https://www.fimedi.net"
         }
     ],
     "homepage": "https://github.com/fimedinet/escudero",
