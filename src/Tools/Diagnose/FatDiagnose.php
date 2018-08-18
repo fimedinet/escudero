@@ -13,6 +13,10 @@ use OzdemirBurak\JsonCsv\File\Csv;
  */
 class FatDiagnose
 {
+    const CHECK_ABOVE = +1;
+    const CHECK_BELOW = -1;
+    const CHECK_BALANCED = 0;
+
     private $gender;
 
     private $age;
@@ -95,18 +99,21 @@ class FatDiagnose
         return $this->getFatRangeFromCategory($bmiCategory);
     }
 
+    /*
+     * Check if a given fat level is above or below the recommended range
+     */
     public function check($bmi, $body_fat)
     {
         $range = $this->getFatRange($bmi);
 
         if ($range['min'] > floatval($body_fat)) {
-            return -1;
+            return self::CHECK_BELOW;
         }
 
         if (floatval($body_fat) > $range['max']) {
-            return +1;
+            return self::CHECK_ABOVE;
         }
 
-        return 0;
+        return self::CHECK_BALANCED;
     }
 }

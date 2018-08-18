@@ -133,6 +133,32 @@ class FatDiagnoseTest extends BaseTestCase
         }
     }
 
+    /**
+     * Test it tells if a given fat level is above or below the recommended range for that profile
+     *
+     * @return void
+     */
+    public function test_it_tells_if_a_given_fat_level_is_above_or_below_the_recommended_range_for_that_profile()
+    {
+        $profile = $this->randomProfile();
+
+        $tool = FatDiagnose::create($profile);
+
+        $range = $tool->getFatRange($profile['bmi']);
+
+        $faker = Factory::create();
+
+        $delta = $faker->numberBetween(1, 5);
+
+        $resultAbove = $tool->check($profile['bmi'], $range['max'] + $delta); // Above maximum in range
+        $resultBelow = $tool->check($profile['bmi'], $range['min'] - $delta); // Below minimum in range
+        $resultBalanced = $tool->check($profile['bmi'], $range['min'] + $delta); // Inside range
+
+        $this->assertEquals(FatDiagnose::CHECK_ABOVE, $resultAbove);
+        $this->assertEquals(FatDiagnose::CHECK_BELOW, $resultBelow);
+        $this->assertEquals(FatDiagnose::CHECK_BALANCED, $resultBalanced);
+    }
+
     /////////////
     // HELPERS //
     /////////////
