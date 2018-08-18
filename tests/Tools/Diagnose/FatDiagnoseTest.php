@@ -3,7 +3,9 @@
 namespace Tests\Tools\Diagnose;
 
 use Faker\Factory;
+use FimediNET\Escudero\Tools\BMI\BMILevel;
 use FimediNET\Escudero\Tools\Diagnose\FatDiagnose;
+use OzdemirBurak\JsonCsv\File\Csv;
 use Tests\BaseTestCase;
 
 class FatDiagnoseTest extends BaseTestCase
@@ -47,7 +49,7 @@ class FatDiagnoseTest extends BaseTestCase
     {
         $faker = Factory::create();
 
-        $gender = $faker->randomElement(['M','F']);
+        $gender = $faker->randomElement(['M', 'F']);
         $age = $faker->numberBetween(18, 80);
         $bmi = $faker->numberBetween(17, 50);
 
@@ -56,5 +58,47 @@ class FatDiagnoseTest extends BaseTestCase
         $range = $tool->getFatRangeString($bmi);
 
         $this->assertRegExp('/[\d\.]+\-[\d\.]+/', $range);
+    }
+
+    /**
+     * Test it uses external fat ranges table from CSV to JSON
+     *
+     * @return void
+     */
+    public function test_uses_external_fat_table_from_csv_to_json()
+    {
+        $tool = FatDiagnose::create(['age' => 33, 'gender' => 'M']);
+
+        $jsonData = $this->loadFatRangesStub();
+
+        $tool->useJSONData($jsonData);
+
+        $bmiCategories = [BMILevel::LEVEL_LOW,
+                          BMILevel::LEVEL_NORMAL,
+                          BMILevel::LEVEL_HIGH,
+                          BMILevel::LEVEL_VERY_HIGH,];
+
+        foreach ($bmiCategories as $bmiCategory) {
+            $range = $tool->getFatRangeFromCategory($bmiCategory);
+
+            $this->assertInternalType('array', $range);
+            $this->assertArrayHasKey('min', $range);
+            $this->assertArrayHasKey('max', $range);
+            $this->assertInternalType('float', $range['min']);
+            $this->assertInternalType('float', $range['max']);
+        }
+    }
+
+    /////////////
+    // HELPERS //
+    /////////////
+
+    protected function loadFatRangesStub()
+    {
+        $csv = new Csv(__DIR__.'/../../../data/fat-ranges.csv');
+
+        $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        return json_decode($csv->convert());
     }
 }

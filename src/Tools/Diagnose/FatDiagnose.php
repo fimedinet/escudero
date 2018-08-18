@@ -3,6 +3,7 @@
 namespace FimediNET\Escudero\Tools\Diagnose;
 
 use FimediNET\Escudero\Tools\BMI\BMILevel;
+use OzdemirBurak\JsonCsv\File\Csv;
 
 /*
  * Diagnose fat levels according to standard tables.
@@ -17,6 +18,8 @@ class FatDiagnose
     private $age;
 
     private $table = [];
+
+    private $jsonData = [];
 
     public function __construct(array $attributes = null)
     {
@@ -38,37 +41,18 @@ class FatDiagnose
         $this->age = $attributes['age'];
     }
 
+    public function useJSONData($data)
+    {
+        $this->jsonData = $data;
+    }
+
     protected function initTable()
     {
-        # GENDER ; AGE RANGE ; FAT RANGE
-        $this->table['LOW'] =
-        'F;20-39;0-21
-        F;40-59;0-23
-        F;60-79;0-24
-        M;20-39;0-8
-        M;40-59;0-11
-        M;60-79;0-13';
-        $this->table['NORMAL'] =
-        'F;20-39;21.0-32.9
-        F;40-59;23.0-33.9
-        F;60-79;24.0-35.9
-        M;20-39;8.0-19.9
-        M;40-59;11.0-21.9
-        M;60-79;13.0-24.9';
-        $this->table['HIGH'] =
-        'F;20-39;33-38.9
-        F;40-59;34-39.9
-        F;60-79;36-41.9
-        M;18-39;20-24.9
-        M;40-59;22-27.9
-        M;60-79;25-29.9';
-        $this->table['VERYHIGH'] =
-        'F;20-39;33-39
-        F;40-59;34-40
-        F;60-79;36-42
-        M;18-39;20-25
-        M;40-59;22-28
-        M;60-79;25-30';
+        $csv = new Csv(__DIR__ . '/../../../data/fat-ranges.csv');
+
+        $csv->setConversionKey('options', JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+
+        $this->jsonData = json_decode($csv->convert());
     }
 
     public function getFatRangeString($bmi)
@@ -78,26 +62,23 @@ class FatDiagnose
         return "{$range['min']}-{$range['max']}";
     }
 
-    public function getFatRangeFromLevel($bmiLevel)
+    public function getFatRangeFromCategory($bmiLevel)
     {
-        // logger()->info("Calculated BMI: $bmiLevel");
+        // Scan the table
+        foreach ($this->jsonData as $row) {
 
-        $records = explode("\n", $this->table[$bmiLevel]);
-        foreach ($records as $record) {
-            list($r_gender, $r_ages, $r_values) = explode(';', $record);
+            // If BMI level category AND gender is found
+            if ($row->category == $bmiLevel && $row->gender == $this->gender) {
 
-            $r_gender = trim($r_gender);
+                list($minAge, $maxAge) = explode('-', $row->age);
 
-            if ($r_gender == $this->gender) {
-                list($r_age_min, $r_age_max) = explode('-', $r_ages);
+                // If age range is found
+                if (intval($minAge) <= $this->age && intval($maxAge) >= $this->age) {
 
-                if (intval($r_age_min) <= $this->age && $this->age <= intval($r_age_max)) {
-                    list($r_val_min, $r_val_max) = explode('-', $r_values);
-                    // logger()->info("RANGE: $r_val_min - $r_val_max");
+                    // Parse the fat range
+                    list($minFat, $maxFat) = explode('-', $row->range);
 
-                    return ['min' => floatval($r_val_min),
-                            'max' => floatval($r_val_max),
-                            ];
+                    return ['min' => floatval($minFat), 'max' => floatval($maxFat)];
                 }
             }
         }
@@ -107,9 +88,9 @@ class FatDiagnose
 
     public function getFatRange($bmi)
     {
-        $bmiLevel = BMILevel::category($bmi);
+        $bmiCategory = BMILevel::category($bmi);
 
-        return $this->getFatRangeFromLevel($bmiLevel);
+        return $this->getFatRangeFromCategory($bmiCategory);
     }
 
     public function check($bmi, $body_fat)
