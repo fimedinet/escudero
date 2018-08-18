@@ -31,6 +31,10 @@ class FatDiagnoseTest extends BaseTestCase
     {
         $tool = FatDiagnose::create(['age' => 33, 'gender' => 'M']);
 
+        $tool->initTable();
+
+        // dd($tool);
+
         $range1 = $tool->getFatRangeString(18);
         $range2 = $tool->getFatRangeString(19);
         $range3 = $tool->getFatRangeString(30);
