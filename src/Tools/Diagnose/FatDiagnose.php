@@ -2,6 +2,8 @@
 
 namespace FimediNET\Escudero\Tools\Diagnose;
 
+use FimediNET\Escudero\Tools\BMI\BMILevel;
+
 /*
  * Diagnose fat levels according to standard tables.
  *
@@ -105,7 +107,7 @@ class FatDiagnose
 
     public function getFatRange($bmi)
     {
-        $bmiLevel = $this->calc_bmi_level($bmi);
+        $bmiLevel = BMILevel::category($bmi);
 
         return $this->getFatRangeFromLevel($bmiLevel);
     }
@@ -123,22 +125,5 @@ class FatDiagnose
         }
 
         return 0;
-    }
-
-    public function calc_bmi_level($bmi)
-    {
-        if ($bmi <= 18.5) {
-            return 'LOW';
-        }
-
-        if ($bmi <= 25) {
-            return 'NORMAL';
-        }
-
-        if ($bmi <= 30) {
-            return 'HIGH';
-        }
-
-        return 'VERYHIGH';
     }
 }
