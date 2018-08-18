@@ -10,7 +10,7 @@ use Tests\BaseTestCase;
 
 class SkeletalMuscleDiagnoseTest extends BaseTestCase
 {
-    use GeneratesProfileTrait;
+    use GeneratesProfileTrait, LoadsDataStubTrait;
 
     /**
      * Test a SkeletalMuscleDiagnose tool class exists
@@ -67,7 +67,7 @@ class SkeletalMuscleDiagnoseTest extends BaseTestCase
     {
         $tool = SkeletalMuscleDiagnose::create($this->randomProfile());
 
-        $jsonData = $this->loadSkeletalMuscleRangesStub();
+        $jsonData = $this->loadRangesStub('skeletal-muscle');
 
         $tool->useJSONData($jsonData);
 
@@ -159,18 +159,5 @@ class SkeletalMuscleDiagnoseTest extends BaseTestCase
         $this->assertEquals(SkeletalMuscleDiagnose::CHECK_ABOVE, $resultAbove);
         $this->assertEquals(SkeletalMuscleDiagnose::CHECK_BELOW, $resultBelow);
         $this->assertEquals(SkeletalMuscleDiagnose::CHECK_BALANCED, $resultBalanced);
-    }
-
-    /////////////
-    // HELPERS //
-    /////////////
-
-    protected function loadSkeletalMuscleRangesStub()
-    {
-        $csv = new Csv(__DIR__.'/../../../data/ranges/skeletal-muscle.csv');
-
-        $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-        return json_decode($csv->convert());
     }
 }

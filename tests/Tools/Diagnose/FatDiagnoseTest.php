@@ -10,7 +10,7 @@ use Tests\BaseTestCase;
 
 class FatDiagnoseTest extends BaseTestCase
 {
-    use GeneratesProfileTrait;
+    use GeneratesProfileTrait, LoadsDataStubTrait;
 
     /**
      * Test a FatDiagnose tool class exists
@@ -71,7 +71,7 @@ class FatDiagnoseTest extends BaseTestCase
     {
         $tool = FatDiagnose::create($this->randomProfile());
 
-        $jsonData = $this->loadFatRangesStub();
+        $jsonData = $this->loadRangesStub('fat');
 
         $tool->useJSONData($jsonData);
 
@@ -163,18 +163,5 @@ class FatDiagnoseTest extends BaseTestCase
         $this->assertEquals(FatDiagnose::CHECK_ABOVE, $resultAbove);
         $this->assertEquals(FatDiagnose::CHECK_BELOW, $resultBelow);
         $this->assertEquals(FatDiagnose::CHECK_BALANCED, $resultBalanced);
-    }
-
-    /////////////
-    // HELPERS //
-    /////////////
-
-    protected function loadFatRangesStub()
-    {
-        $csv = new Csv(__DIR__.'/../../../data/ranges/fat.csv');
-
-        $csv->setConversionKey('options', JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-        return json_decode($csv->convert());
     }
 }
