@@ -16,13 +16,18 @@ class WeightCalc
     public function __construct(array $attributes = null)
     {
         if ($attributes) {
-            $this->height = floatval($attributes['height']);
+            $this->setHeight($attributes['height']);
         }
     }
 
     public static function create(int $height)
     {
         return new self(['height' => $height]);
+    }
+
+    public function setHeight($height)
+    {
+        $this->height = floatval($height);
     }
 
     public function weight($type = self::IDEAL)
