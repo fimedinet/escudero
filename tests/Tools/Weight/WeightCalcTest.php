@@ -41,4 +41,24 @@ class WeightCalcTest extends BaseTestCase
         $this->assertEquals($overWeightBoundary, 84.2);
         $this->assertEquals($underWeightBoundary, 62.3);
     }
+
+    /**
+     * Test it provides method alias
+     *
+     * @return void
+     */
+    public function test_it_provides_method_alias()
+    {
+        $weightCalc = WeightCalc::create(1835);
+
+        $idealWeight = $weightCalc->ideal;
+
+        $overWeightBoundary = $weightCalc->max;
+
+        $underWeightBoundary = $weightCalc->min;
+
+        $this->assertEquals($idealWeight, 74.1);
+        $this->assertEquals($overWeightBoundary, 84.2);
+        $this->assertEquals($underWeightBoundary, 62.3);
+    }
 }

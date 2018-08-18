@@ -49,4 +49,9 @@ class WeightCalc
 
         return number_format((($height * $height) * $factor) / 1000000, 1);
     }
+
+    public function __get($name)
+    {
+        return $this->weight($name);
+    }
 }
