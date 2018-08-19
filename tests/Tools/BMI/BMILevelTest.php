@@ -47,6 +47,7 @@ class BMILevelTest extends BaseTestCase
             "34" => BMILevel::TYPE_OBESE_GRADE_I,
             "39" => BMILevel::TYPE_OBESE_GRADE_II,
             "41" => BMILevel::TYPE_OBESE_GRADE_III,
+            "100" => BMILevel::TYPE_OBESE_GRADE_III, // After upper bound limit
         ];
 
         foreach ($testMatrix as $bmi => $categoryCheck) {

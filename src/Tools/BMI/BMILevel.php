@@ -41,40 +41,24 @@ class BMILevel
 
     public static function classification(float $bmi) : int
     {
-        if ($bmi <= 16.00) {
-            return self::TYPE_SEVERE_THINNESS;
+        $classifications = [
+            ['limit' => 16.0 , 'type' => self::TYPE_SEVERE_THINNESS],
+            ['limit' => 16.99, 'type' => self::TYPE_MODERATE_THINNESS],
+            ['limit' => 18.49, 'type' => self::TYPE_MILD_THINNESS],
+            ['limit' => 24.99, 'type' => self::TYPE_REGULAR],
+            ['limit' => 27.49, 'type' => self::TYPE_OVERWEIGHT],
+            ['limit' => 29.99, 'type' => self::TYPE_PRE_OBESE],
+            ['limit' => 34.99, 'type' => self::TYPE_OBESE_GRADE_I],
+            ['limit' => 39.99, 'type' => self::TYPE_OBESE_GRADE_II],
+            ['limit' => 60   , 'type' => self::TYPE_OBESE_GRADE_III],
+        ];
+
+        foreach ($classifications as $classification) {
+            if ($bmi <= $classification['limit']) {
+                return $classification['type'];
+            }
         }
 
-        if ($bmi <= 16.99) {
-            return self::TYPE_MODERATE_THINNESS;
-        }
-
-        if ($bmi <= 18.49) {
-            return self::TYPE_MILD_THINNESS;
-        }
-
-        if ($bmi <= 24.99) {
-            return self::TYPE_REGULAR;
-        }
-
-        if ($bmi <= 27.49) {
-            return self::TYPE_OVERWEIGHT;
-        }
-
-        if ($bmi <= 29.99) {
-            return self::TYPE_PRE_OBESE;
-        }
-
-        if ($bmi <= 34.99) {
-            return self::TYPE_OBESE_GRADE_I;
-        }
-
-        if ($bmi <= 39.99) {
-            return self::TYPE_OBESE_GRADE_II;
-        }
-
-        if ($bmi >= 40) {
-            return self::TYPE_OBESE_GRADE_III;
-        }
+        return self::TYPE_OBESE_GRADE_III;
     }
 }
