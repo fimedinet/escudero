@@ -13,7 +13,8 @@
     "keywords": ["Laravel", "escudero"],
     "require": {
         "illuminate/support": "~5",
-        "ozdemirburak/json-csv": "^0.0.1"
+        "ozdemirburak/json-csv": "^0.0.1",
+        "denissimon/formula-parser": "^2.5"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0 || ~7.0",
