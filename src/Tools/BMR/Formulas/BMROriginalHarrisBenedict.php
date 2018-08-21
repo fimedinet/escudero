@@ -3,6 +3,7 @@
 namespace FimediNET\Escudero\Tools\BMR\Formulas;
 
 use FormulaParser\FormulaParser;
+use FimediNET\Escudero\Tools\BMR\Formulas\BMRFormulaInterface;
 
 /*
  * Calculator for Basal Metabolic Rate based on
@@ -15,7 +16,7 @@ use FormulaParser\FormulaParser;
  * A: Age (years old)
  * 
  */
-class BMROriginalHarrisBenedict
+class BMROriginalHarrisBenedict implements BMRFormulaInterface
 {
     const GENDER_MALE = 'M';
     const GENDER_FEMALE = 'F';
@@ -25,7 +26,7 @@ class BMROriginalHarrisBenedict
         self::GENDER_FEMALE => "655.1 + ( 9.563 * W ) + ( 1.850 * H ) - ( 4.676 * A )"
     ];
 
-    public function expression($gender)
+    public function expression(string $gender)
     {
         return $this->formulas[$gender];
     }

@@ -27,7 +27,9 @@ class BMRCalc
 
     public function formula($formulaName)
     {
-        $this->formula = new $this->formulas[$formulaName]();
+        if (array_key_exists($formulaName, $this->formulas)) {
+            $this->formula = new $this->formulas[$formulaName]();
+        }
 
         return $this;
     }
