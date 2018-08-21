@@ -20,9 +20,13 @@ class BMRCalc
     private $formula;
 
     const FORMULA_HARRIS_BENEDICT_ORIGINAL = 'harris-benedict-original';
+    const FORMULA_HARRIS_BENEDICT_R_RS = 'harris-benedict-revised-roza-shizgal';
+    const FORMULA_HARRIS_BENEDICT_R_MSJ = 'harris-benedict-revised-mifflin-stjeor';
 
     private $formulas = [
         self::FORMULA_HARRIS_BENEDICT_ORIGINAL => \FimediNET\Escudero\Tools\BMR\Formulas\BMROriginalHarrisBenedict::class,
+        self::FORMULA_HARRIS_BENEDICT_R_RS => \FimediNET\Escudero\Tools\BMR\Formulas\BMRHarrisBenedictRevisedRS::class,
+        self::FORMULA_HARRIS_BENEDICT_R_MSJ => \FimediNET\Escudero\Tools\BMR\Formulas\BMRHarrisBenedictRevisedMSJ::class,
     ];
 
     public function formula($formulaName)
