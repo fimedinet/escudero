@@ -2,8 +2,7 @@
 
 namespace FimediNET\Escudero\Tools\BMR\Formulas;
 
-use FormulaParser\FormulaParser;
-use FimediNET\Escudero\Tools\BMR\Formulas\BMRFormulaInterface;
+
 
 /*
  * Calculator for Basal Metabolic Rate based on
@@ -22,12 +21,17 @@ class BMRHarrisBenedictRevisedRS implements BMRFormulaInterface
     const GENDER_FEMALE = 'F';
 
     protected $formulas = [
-        self::GENDER_MALE   => "88.362 + (13.397 * W) + (4.799 * H) - (5.677 * A)",
-        self::GENDER_FEMALE => "447.593 + (9.247 * W) + (3.098 * H) - (4.330 * A)"
+        self::GENDER_MALE   => '88.362 + (13.397 * W) + (4.799 * H) - (5.677 * A)',
+        self::GENDER_FEMALE => '447.593 + (9.247 * W) + (3.098 * H) - (4.330 * A)',
     ];
 
     public function expression(string $gender)
     {
         return $this->formulas[$gender];
+    }
+
+    public function formulaName() : string
+    {
+        return 'Harris Benedict revised by Roza Shizgal.';
     }
 }

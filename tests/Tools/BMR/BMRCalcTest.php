@@ -63,4 +63,43 @@ class BMRCalcTest extends BaseTestCase
 
         $this->assertEquals($bmr, 1708.75);
     }
+
+    /**
+     * Test it returns the selected formula name
+     *
+     * @return void
+     */
+    public function test_it_returns_the_selected_formula_name()
+    {
+        $formulas = [
+            BMRCalc::FORMULA_HARRIS_BENEDICT_ORIGINAL,
+            BMRCalc::FORMULA_HARRIS_BENEDICT_R_RS,
+            BMRCalc::FORMULA_HARRIS_BENEDICT_R_MSJ,
+        ];
+
+        foreach($formulas as $formula)
+        {
+            $bmrCalc = new BMRCalc();
+
+            $bmrFormula = $bmrCalc->formula($formula)->formulaName();
+
+            $this->assertInternalType('string', $bmrFormula);
+            $this->assertTrue(strlen($bmrFormula) > 0);
+        }
+    }
+
+    /**
+     * Test it returns empty formula name when no formula was selected
+     *
+     * @return void
+     */
+    public function test_it_returns_empty_formula_name_when_no_formula_was_selected()
+    {
+            $bmrCalc = new BMRCalc();
+
+            $bmrFormula = $bmrCalc->formulaName();
+
+            $this->assertInternalType('string', $bmrFormula);
+            $this->assertEquals($bmrFormula, '');
+    }
 }

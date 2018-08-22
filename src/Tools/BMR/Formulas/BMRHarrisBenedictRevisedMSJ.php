@@ -30,4 +30,9 @@ class BMRHarrisBenedictRevisedMSJ implements BMRFormulaInterface
     {
         return $this->formulas[$gender];
     }
+
+    public function formulaName() : string
+    {
+        return 'Harris Benedict revised by Mifflin and St. Jeor';
+    }
 }

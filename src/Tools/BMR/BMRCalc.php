@@ -81,4 +81,9 @@ class BMRCalc
 
         return ($result[0] == 'done') ? $result[1] : false;
     }
+
+    public function formulaName()
+    {
+        return $this->formula ? $this->formula->formulaName() : '';
+    }
 }
