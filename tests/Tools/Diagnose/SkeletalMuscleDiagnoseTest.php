@@ -154,7 +154,7 @@ class SkeletalMuscleDiagnoseTest extends BaseTestCase
 
         $resultAbove = $tool->check($profile['bmi'], $range['max'] + $delta); // Above maximum in range
         $resultBelow = $tool->check($profile['bmi'], $range['min'] - $delta); // Below minimum in range
-        $resultBalanced = $tool->check($profile['bmi'], $range['min'] + $delta); // Inside range
+        $resultBalanced = $tool->check($profile['bmi'], $range['min'] + 1); // Inside range
 
         $this->assertEquals(SkeletalMuscleDiagnose::CHECK_ABOVE, $resultAbove);
         $this->assertEquals(SkeletalMuscleDiagnose::CHECK_BELOW, $resultBelow);
