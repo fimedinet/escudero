@@ -53,4 +53,18 @@ class TCNCalcTest extends BaseTestCase
 
         $this->assertEquals($tcn, 2107.212);
     }
+
+    /**
+     * Test it returns false if any data field is missing
+     *
+     * @return void
+     */
+    public function test_it_returns_false_if_any_data_field_is_missing()
+    {
+        $tcnCalc = new TCNCalc;
+
+        $tcn = $tcnCalc->calculate();
+
+        $this->assertFalse($tcn);
+    }
 }

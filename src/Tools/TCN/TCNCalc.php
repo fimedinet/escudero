@@ -34,7 +34,7 @@ class TCNCalc
 
     public function activityKey(string $activity)
     {
-        $this->activity = constant("self::".$activity);
+        $this->activity = constant('self::'.$activity);
 
         return $this;
     }
@@ -48,6 +48,10 @@ class TCNCalc
 
     public function calculate()
     {
+        if ($this->bmr === null || $this->activity === null) {
+            return false;
+        }
+
         return $this->bmr * $this->palTable[$this->activity];
     }
 }
