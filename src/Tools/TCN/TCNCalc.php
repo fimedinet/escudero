@@ -32,7 +32,14 @@ class TCNCalc
         return $this;
     }
 
-    public function activity(int $activity)
+    public function activityKey(string $activity)
+    {
+        $this->activity = constant("self::".$activity);
+
+        return $this;
+    }
+
+    public function activityID(int $activity)
     {
         $this->activity = $activity;
 
