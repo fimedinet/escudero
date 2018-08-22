@@ -1,8 +1,10 @@
 # Escudero Laravel Package for Nutrition Control
 
-[![Latest Stable Version](https://poser.pugx.org/fimedinet/escudero/v/stable?format=flat)](https://packagist.org/packages/fimedinet/escudero)
-[![Total Downloads](https://poser.pugx.org/fimedinet/escudero/downloads?format=flat)](https://packagist.org/packages/fimedinet/escudero)
 [![Build Status](https://travis-ci.org/fimedinet/escudero.svg?branch=master)](https://travis-ci.org/fimedinet/escudero)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/569e6089cae9c0ca94c7/test_coverage)](https://codeclimate.com/github/fimedinet/escudero/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/569e6089cae9c0ca94c7/maintainability)](https://codeclimate.com/github/fimedinet/escudero/maintainability)
+[![Total Downloads](https://poser.pugx.org/fimedinet/escudero/downloads?format=flat)](https://packagist.org/packages/fimedinet/escudero)
+[![Latest Stable Version](https://poser.pugx.org/fimedinet/escudero/v/stable?format=flat)](https://packagist.org/packages/fimedinet/escudero)
 
 This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
 
