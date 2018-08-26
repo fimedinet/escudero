@@ -1,0 +1,7 @@
+"gender","range","frame_size"
+"M","10.5-999","SMALL"
+"M","9.6-10.5","MEDIUM"
+"M","0-9.6","LARGE"
+"F","11-999","SMALL"
+"F","10.1-11","MEDIUM"
+"F","0-10.1","LARGE"
