@@ -5,6 +5,7 @@ namespace Tests;
 use FimediNET\Escudero\Escudero;
 use FimediNET\Escudero\Tools\Diagnose\FatDiagnose;
 use FimediNET\Escudero\Tools\Diagnose\SkeletalMuscleDiagnose;
+use FimediNET\Escudero\Tools\FrameSize\FrameSizeCalc;
 use FimediNET\Escudero\Tools\Weight\WeightCalc;
 
 class EscuderoTest extends BaseTestCase
@@ -43,6 +44,18 @@ class EscuderoTest extends BaseTestCase
         $tool = Escudero::tool(Escudero::TOOL_WEIGHT_CALC);
 
         $this->assertInstanceOf(WeightCalc::class, $tool);
+    }
+
+    /**
+     * Test it returns a valid class for FrameSizeCalc
+     *
+     * @return void
+     */
+    public function test_it_returns_a_valid_class_for_frame_size_calc()
+    {
+        $tool = Escudero::tool(Escudero::TOOL_FRAME_SIZE_CALC);
+
+        $this->assertInstanceOf(FrameSizeCalc::class, $tool);
     }
 
     /**
