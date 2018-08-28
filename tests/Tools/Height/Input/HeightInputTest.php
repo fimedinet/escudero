@@ -18,7 +18,7 @@ class HeightInputTest extends BaseTestCase
     {
         $sanitizedHeight = HeightInput::sanitize($input);
 
-        $this->assertEquals($sanitizedHeight, $expected);
+        $this->assertSame($sanitizedHeight, $expected);
     }
 
     /**
@@ -29,6 +29,9 @@ class HeightInputTest extends BaseTestCase
     public function provider()
     {
         return [
+            [null   , null],  // Empty value
+            [''     , null],  // Empty value
+            ['0'    , null],  // Empty value
             ['1835' , 1835],  // Expressed in milimeters
             ['183'  , 1830],  // Expressed in centimeters
             ['1.83' , 1830],  // Expressed in meters

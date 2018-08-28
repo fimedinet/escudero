@@ -8,10 +8,15 @@ class HeightInput
      * Sanitize a height value expressed in cm or mm to mm
      * 
      * @param  mixed $value Expression for height in cm or mm
+     *
      * @return int          Converted height into mm
      */
     public static function sanitize($value)
     {
+        if (empty($value)) {
+            return;
+        }
+
         $sanitizedValue = $value;
 
         $sanitizedValue = str_replace(',', '.', $sanitizedValue);
@@ -28,6 +33,6 @@ class HeightInput
             $sanitizedValue += 1000;
         }
 
-        return $sanitizedValue;
+        return intval($sanitizedValue);
     }
 }
