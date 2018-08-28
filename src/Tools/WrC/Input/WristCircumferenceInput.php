@@ -8,10 +8,15 @@ class WristCircumferenceInput
      * Sanitize a Wrist Circumference value expressed in cm or mm to mm
      * 
      * @param  mixed $value Expression for Wrist Circumference in cm or mm
+     *
      * @return int          Converted Wrist Circumference into mm
      */
     public static function sanitize($value)
     {
+        if (empty($value)) {
+            return;
+        }
+
         $sanitizedValue = $value;
 
         $sanitizedValue = str_replace(',', '.', $sanitizedValue);
@@ -28,6 +33,6 @@ class WristCircumferenceInput
             $sanitizedValue *= 10;
         }
 
-        return $sanitizedValue;
+        return intval($sanitizedValue);
     }
 }

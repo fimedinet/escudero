@@ -18,7 +18,7 @@ class WristCircumferenceInputTest extends BaseTestCase
     {
         $sanitizedWrC = WristCircumferenceInput::sanitize($input);
 
-        $this->assertEquals($sanitizedWrC, $expected);
+        $this->assertSame($sanitizedWrC, $expected);
     }
 
     /**
@@ -29,6 +29,9 @@ class WristCircumferenceInputTest extends BaseTestCase
     public function provider()
     {
         return [
+            [null  , null],
+            [''    , null],
+            ['0'   , null],
             ['9.5' , 95],
             ['9,5' , 95],
             ['16'  , 160],
