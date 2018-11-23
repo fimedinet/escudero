@@ -5,6 +5,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/569e6089cae9c0ca94c7/maintainability)](https://codeclimate.com/github/fimedinet/escudero/maintainability)
 [![Total Downloads](https://poser.pugx.org/fimedinet/escudero/downloads?format=flat)](https://packagist.org/packages/fimedinet/escudero)
 [![Latest Stable Version](https://poser.pugx.org/fimedinet/escudero/v/stable?format=flat)](https://packagist.org/packages/fimedinet/escudero)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffimedinet%2Fescudero.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffimedinet%2Fescudero?ref=badge_shield)
 
 This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
 
@@ -56,3 +57,5 @@ license. Please see the [license file](license.md) for more information.
 [link-styleci]: https://styleci.io/repos/12345678
 [link-author]: https://github.com/fimedinet
 [link-contributors]: ../../contributors]
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffimedinet%2Fescudero.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffimedinet%2Fescudero?ref=badge_large)
