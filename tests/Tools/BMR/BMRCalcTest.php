@@ -8,6 +8,25 @@ use Tests\BaseTestCase;
 class BMRCalcTest extends BaseTestCase
 {
     /**
+     * Test it returns false when any argument missing
+     *
+     * @return void
+     */
+    public function test_it_returns_false_on_null_args()
+    {
+        $bmrCalc = new BMRCalc();
+
+        $bmr = $bmrCalc->formula(BMRCalc::FORMULA_HARRIS_BENEDICT_ORIGINAL)
+                        ->age(33)
+                        ->weight(null)
+                        ->gender('M')
+                        ->height(183.5)
+                        ->calculate();
+
+        $this->assertFalse($bmr);
+    }
+
+    /**
      * Test it calculates Basal Metabolic Rate with original formula
      *
      * @return void
@@ -77,8 +96,7 @@ class BMRCalcTest extends BaseTestCase
             BMRCalc::FORMULA_HARRIS_BENEDICT_R_MSJ,
         ];
 
-        foreach($formulas as $formula)
-        {
+        foreach ($formulas as $formula) {
             $bmrCalc = new BMRCalc();
 
             $bmrFormula = $bmrCalc->formula($formula)->formulaName();
@@ -95,11 +113,11 @@ class BMRCalcTest extends BaseTestCase
      */
     public function test_it_returns_empty_formula_name_when_no_formula_was_selected()
     {
-            $bmrCalc = new BMRCalc();
+        $bmrCalc = new BMRCalc();
 
-            $bmrFormula = $bmrCalc->formulaName();
+        $bmrFormula = $bmrCalc->formulaName();
 
-            $this->assertInternalType('string', $bmrFormula);
-            $this->assertEquals($bmrFormula, '');
+        $this->assertInternalType('string', $bmrFormula);
+        $this->assertEquals($bmrFormula, '');
     }
 }

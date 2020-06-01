@@ -9,6 +9,12 @@ use FormulaParser\FormulaParser;
  */
 class BMRCalc
 {
+    const FORMULA_HARRIS_BENEDICT_ORIGINAL = 'harris-benedict-original';
+
+    const FORMULA_HARRIS_BENEDICT_R_RS = 'harris-benedict-revised-roza-shizgal';
+
+    const FORMULA_HARRIS_BENEDICT_R_MSJ = 'harris-benedict-revised-mifflin-stjeor';
+
     private $gender;
 
     private $age;
@@ -18,10 +24,6 @@ class BMRCalc
     private $height;
 
     private $formula;
-
-    const FORMULA_HARRIS_BENEDICT_ORIGINAL = 'harris-benedict-original';
-    const FORMULA_HARRIS_BENEDICT_R_RS = 'harris-benedict-revised-roza-shizgal';
-    const FORMULA_HARRIS_BENEDICT_R_MSJ = 'harris-benedict-revised-mifflin-stjeor';
 
     private $formulas = [
         self::FORMULA_HARRIS_BENEDICT_ORIGINAL => \FimediNET\Escudero\Tools\BMR\Formulas\BMROriginalHarrisBenedict::class,
@@ -59,15 +61,19 @@ class BMRCalc
         return $this;
     }
 
-    public function weight(float $weight)
+    public function weight(float $weight = null)
     {
-        $this->weight = floatval($weight);
+        $this->weight = is_null($weight) ?: floatval($weight);
 
         return $this;
     }
 
     public function calculate()
     {
+        if (is_null($this->weight)) {
+            return false;
+        }
+
         $expression = $this->formula->expression($this->gender);
 
         $weight = $this->weight;
